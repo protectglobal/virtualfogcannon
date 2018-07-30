@@ -2,7 +2,9 @@ import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { Router } from 'react-router-dom';
 import createBrowserHistory from 'history/createBrowserHistory';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import client from '../graphql/config';
+import theme from '../mui-theme';
 import Routes from '../routes';
 
 // Given that we are implementing App Shell Architecture and, therefore,
@@ -21,7 +23,9 @@ const history = createBrowserHistory();
 const App = () => (
   <Router history={history}>
     <ApolloProvider client={client}>
-      <Routes />
+      <MuiThemeProvider theme={theme}>
+        <Routes />
+      </MuiThemeProvider>
     </ApolloProvider>
   </Router>
 );

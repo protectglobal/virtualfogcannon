@@ -14,3 +14,7 @@ body {
   min-height: 420px;
   width: 100%;
 }
+
+.pointer {
+  cursor: pointer;
+}
