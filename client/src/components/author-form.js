@@ -11,7 +11,7 @@ class AuthorForm extends React.Component {
   }
 
   handleChange = ({ target }) => {
-    const { value, name } = target;
+    const { name, value } = target;
     this.setState({ [name]: value });
   }
 
