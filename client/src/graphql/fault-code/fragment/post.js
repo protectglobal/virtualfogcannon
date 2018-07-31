@@ -1,4 +1,4 @@
-import gql from 'graphql-tag';
+/* import gql from 'graphql-tag';
 
 const postFragment = gql`
   fragment postFragment on Post {
@@ -8,4 +8,4 @@ const postFragment = gql`
   }
 `;
 
-export default postFragment;
+export default postFragment; */
