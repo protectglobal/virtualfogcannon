@@ -10,8 +10,8 @@ body {
 }
 
 .app__container {
-  max-width: 420px;
-  min-height: 420px;
+  max-width: 1200px;
+  min-height: 100%;
   width: 100%;
 }
 

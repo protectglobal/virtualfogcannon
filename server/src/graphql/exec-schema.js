@@ -1,12 +1,10 @@
 const { makeExecutableSchema, addMockFunctionsToSchema } = require('graphql-tools');
 const { mergeTypes } = require('merge-graphql-schemas');
 const merge = require('lodash/merge');
-const Author = require('./author');
-const Post = require('./post');
+const FaultCode = require('./fault-code');
 
 const APIs = {
-  Author,
-  Post,
+  FaultCode,
 };
 
 // Filter out those APIs for which 'typeDefs' and 'resolvers' are defined. In
