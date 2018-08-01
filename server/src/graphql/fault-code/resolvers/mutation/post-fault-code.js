@@ -1,6 +1,11 @@
 const request = require('request-promise-native');
 // const isEmpty = require('lodash/isEmpty');
 // const { Author } = require('../../../../models');
+const { PWA_URL } = process.env;
+
+if (!PWA_URL || PWA_URL.trim().length === 0) {
+  throw new Error(404, 'missing PWA_URL');
+}
 
 const postFaultCode = async (root, args) => {
   const { faultCode } = args;
@@ -8,15 +13,16 @@ const postFaultCode = async (root, args) => {
 
   const options = {
     method: 'POST',
-    uri: 'http://api.posttestserver.com/post',
+    uri: `${PWA_URL}/fault-codes`,
     body: {
-      some: 'payload',
+      faultCode,
     },
     json: true, // Automatically stringifies the body to JSON
   };
 
   try {
-    await request(options); // parsedBody
+    const res = await request(options); // parsedBody
+    console.log('res', res);
     return { status: 200 };
   } catch (exc) {
     console.log(exc);
