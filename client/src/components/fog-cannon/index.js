@@ -16,12 +16,12 @@ Input 5 (Fire): Fire sensor. Disables the fog cannon in case of fire.
 //------------------------------------------------------------------------------
 // CONSTANTS:
 //------------------------------------------------------------------------------
-const CANNON_STATES = {
-  checkedARM: 'ARM',
-  checkedPrimary: 'Primary',
-  checkedSecondary: 'Secondary',
-  checkedDisable: 'Disable',
-  checkedFire: 'Fire',
+const FOG_CANNON_INPUTS = {
+  ARM: 'Arms/disarms the fog cannon. Controlled by PWA and/or alarm system',
+  Primary: 'Break-in sensor / alarm system',
+  Secondary: 'Verifying sensor (room sensor / door switch)',
+  Disable: 'Disables the fog cannon. Controlled by PWA and/or alarm system',
+  Fire: 'Fire sensor. Disables the fog cannon in case of fire',
 };
 //------------------------------------------------------------------------------
 // STYLE:
@@ -37,32 +37,32 @@ class FogCannon extends React.Component {
   constructor(props) {
     super(props);
     this.state = {};
-    Object.keys(CANNON_STATES).forEach((field) => {
-      this.state[field] = true;
+    Object.keys(FOG_CANNON_INPUTS).forEach((key) => {
+      this.state[`checked${key}`] = true;
     });
   }
 
   handleChange = ({ target }) => {
     const { name, checked } = target;
-    this.setState({ [name]: checked });
+    this.setState({ [`checked${name}`]: checked });
   }
 
   render() {
     return (
       <Container className="p1">
         <FormGroup>
-          {Object.keys(CANNON_STATES).map(key => (
+          {Object.keys(FOG_CANNON_INPUTS).map(key => (
             <FormControlLabel
               key={key}
               control={(
                 <Switch
                   name={key}
-                  checked={this.state[key]} // eslint-disable-line
+                  checked={this.state[`checked${key}`]} // eslint-disable-line
                   onChange={this.handleChange}
                   value={key}
                 />
               )}
-              label={CANNON_STATES[key]}
+              label={`[${key}] - ${FOG_CANNON_INPUTS[key]}`}
             />
           ))}
         </FormGroup>
