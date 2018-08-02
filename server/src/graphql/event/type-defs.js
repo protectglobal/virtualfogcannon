@@ -1,8 +1,4 @@
 const typeDefs = `
-  type Response {
-    status: Int!
-  }
-
   type Event {
     cannonId: String!
     eventType: String!
