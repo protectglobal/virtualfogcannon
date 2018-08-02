@@ -40,7 +40,7 @@ class FogCannon extends React.Component {
     this.setState({ [`checked${name}`]: checked });
     // Pass event up to parent component
     // TODO probably pass prevState and nextState
-    onChange({ cannonInput: name });
+    onChange({ inputName: name, value: checked });
   }
 
   render() {

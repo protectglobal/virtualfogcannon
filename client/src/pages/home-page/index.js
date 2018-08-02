@@ -38,14 +38,8 @@ const INIT_STATE = {
 class HomePage extends React.PureComponent {
   state = Object.assign({}, INIT_STATE);
 
-  handleFaultCodeClick = async ({ cannonId = '1', faultCode }) => {
+  handleEventPost = async (event) => {
     const { postEvent } = this.props;
-
-    const event = {
-      cannonId,
-      eventType: 'faultCode',
-      eventValue: faultCode,
-    };
 
     // Display fault code on console
     this.setState(pick(event, ['cannonId', 'eventType', 'eventValue']));
@@ -61,6 +55,24 @@ class HomePage extends React.PureComponent {
       console.log('exc', exc);
       this.setState({ httpRes: exc });
     }
+  }
+
+  handleFogCannonInputChange = ({ cannonId = '1', inputName, value }) => {
+    const event = {
+      cannonId,
+      eventType: 'cannonInput',
+      eventValue: `${inputName} - ${value.toString()}`,
+    };
+    this.handleEventPost(event);
+  }
+
+  handleFaultCodeClick = ({ cannonId = '1', faultCode }) => {
+    const event = {
+      cannonId,
+      eventType: 'faultCode',
+      eventValue: faultCode,
+    };
+    this.handleEventPost(event);
   }
 
   handleClearConsoleClick = () => {
@@ -81,7 +93,7 @@ class HomePage extends React.PureComponent {
         <div className="flex">
           <Half>
             <FogCannon
-              onChange={() => {}} // TODO
+              onChange={this.handleFogCannonInputChange}
             />
             <div className="mb2" />
             <Console
