@@ -11,18 +11,26 @@ if (!PWA_URL || PWA_URL.trim().length === 0) {
 // cannonId,
 // eventType in {'faultCode', 'input'}
 // eventValue = 'r' if faultCode or [input1, input3, ...]
-const postFaultCode = async (root, args) => {
-  const { faultCode } = args;
-  console.log('faultCode', faultCode);
+const postEvent = async (root, args) => {
+  // const { cannonId, eventType, eventValue } = args;
+  const { event } = args;
+  console.log('event', event);
+  /* console.log(
+    '\n\npostEvent',
+    'cannonId', cannonId,
+    'eventType', eventType,
+    'eventValue', eventValue,
+  ); */
 
   const options = {
     method: 'POST',
     uri: PWA_URL,
-    body: {
-      cannonId: '1',
-      eventType: 'faultCode',
-      eventValue: faultCode,
-    },
+    body: event,
+    /* body: {
+      cannonId,
+      eventType,
+      eventValue,
+    }, */
     json: true, // Automatically stringifies the body to JSON
   };
 
@@ -36,4 +44,4 @@ const postFaultCode = async (root, args) => {
   }
 };
 
-module.exports = postFaultCode;
+module.exports = postEvent;

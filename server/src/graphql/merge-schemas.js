@@ -1,11 +1,6 @@
 const { mergeTypes } = require('merge-graphql-schemas');
 const merge = require('lodash/merge');
-const FaultCode = require('./fault-code');
-
-// Add all your schemas here
-const schemas = {
-  FaultCode,
-};
+const allSchemas = require('./all-schemas');
 
 // Filter out those schemas for which 'typeDefs' and 'resolvers' are defined. In
 // the end we'll get something like the following:
@@ -14,12 +9,12 @@ const schemas = {
 const allTypeDefs = [];
 const allResolvers = [];
 
-const keys = Object.keys(schemas);
+const keys = Object.keys(allSchemas);
 const { length } = keys;
 
 for (let i = 0; i < length; i += 1) {
   const key = keys[i];
-  const { typeDefs, resolvers } = schemas[key];
+  const { typeDefs, resolvers } = allSchemas[key];
 
   if (typeDefs && resolvers) {
     allTypeDefs.push(typeDefs);
@@ -27,7 +22,7 @@ for (let i = 0; i < length; i += 1) {
   }
 }
 
-// Merge all types and resolvers from schemas to create our executable schema
+// Merge all types and resolvers from allSchemas to create our executable schema
 const typeDefs = mergeTypes(allTypeDefs);
 const resolvers = merge(...allResolvers);
 
