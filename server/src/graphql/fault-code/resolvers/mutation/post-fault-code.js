@@ -7,15 +7,21 @@ if (!PWA_URL || PWA_URL.trim().length === 0) {
   throw new Error(404, 'missing PWA_URL');
 }
 
+// TODO pass:
+// cannonId,
+// eventType in {'faultCode', 'input'}
+// eventValue = 'r' if faultCode or [input1, input3, ...]
 const postFaultCode = async (root, args) => {
   const { faultCode } = args;
   console.log('faultCode', faultCode);
 
   const options = {
     method: 'POST',
-    uri: `${PWA_URL}/fault-codes`,
+    uri: PWA_URL,
     body: {
-      faultCode,
+      cannonId: '1',
+      eventType: 'faultCode',
+      eventValue: faultCode,
     },
     json: true, // Automatically stringifies the body to JSON
   };
