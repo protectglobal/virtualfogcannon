@@ -1,18 +1,10 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 
-/*
-Fog cannon states:
-Input 1 (ARM): Arms/disarms the fog cannon. Controlled by PWA and/or alarm system.
-Input 2 (Primary): Break-in sensor / alarm system
-Input 3 (Secondary): Verifying sensor (room sensor / door switch)
-Input 4 (Disable): Disables the fog cannon. Controlled by PWA and/or alarm system.
-Input 5 (Fire): Fire sensor. Disables the fog cannon in case of fire.
-*/
 //------------------------------------------------------------------------------
 // CONSTANTS:
 //------------------------------------------------------------------------------
@@ -38,13 +30,17 @@ class FogCannon extends React.Component {
     super(props);
     this.state = {};
     Object.keys(FOG_CANNON_INPUTS).forEach((key) => {
-      this.state[`checked${key}`] = true;
+      this.state[`checked${key}`] = false;
     });
   }
 
   handleChange = ({ target }) => {
+    const { onChange } = this.props;
     const { name, checked } = target;
     this.setState({ [`checked${name}`]: checked });
+    // Pass event up to parent component
+    // TODO probably pass prevState and nextState
+    onChange({ inputName: name, value: checked });
   }
 
   render() {
@@ -70,5 +66,13 @@ class FogCannon extends React.Component {
     );
   }
 }
+
+FogCannon.propTypes = {
+  onChange: PropTypes.func,
+};
+
+FogCannon.defaultProps = {
+  onChange: () => {},
+};
 
 export default FogCannon;

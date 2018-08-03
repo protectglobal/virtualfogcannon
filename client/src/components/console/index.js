@@ -15,23 +15,36 @@ const Terminal = styled.div`
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-const Console = ({ faultCode, httpRes }) => (
+const Console = ({
+  cannonId,
+  eventType,
+  eventValue,
+  httpRes,
+}) => (
   <Terminal className="p1">
-    {`>> faultCode: ${faultCode}`}
+    {`>> cannonId: ${cannonId}`}
+    <br />
+    {`>> eventType: ${eventType}`}
+    <br />
+    {`>> eventValue: ${eventValue}`}
     <br />
     {`>> httpRes: ${(httpRes && !isEmpty(httpRes) && JSON.stringify(httpRes, { indent: true })) || ''}`}
   </Terminal>
 );
 
 Console.propTypes = {
-  faultCode: PropTypes.string,
+  cannonId: PropTypes.string,
+  eventType: PropTypes.oneOf(['faultCode', 'cannonInput', '']),
+  eventValue: PropTypes.string,
   httpRes: PropTypes.shape({
     status: PropTypes.string,
   }),
 };
 
 Console.defaultProps = {
-  faultCode: '',
+  cannonId: '',
+  eventType: '',
+  eventValue: '',
   httpRes: {},
 };
 
