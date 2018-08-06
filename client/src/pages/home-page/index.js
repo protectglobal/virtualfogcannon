@@ -6,8 +6,11 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import postEventMutation from '../../graphql/event/mutation/post-event';
 import FogCannon from '../../components/fog-cannon';
+import FogCannonController from '../../components/fog-cannon-controller';
 import FaultCodes from '../../components/fault-codes';
 import Console from '../../components/console';
+import EventsList from '../../components/events-list';
+import ClearEventsBtn from '../../components/clear-events-btn';
 
 //------------------------------------------------------------------------------
 // STYLE:
@@ -36,7 +39,7 @@ const INIT_STATE = {
 // COMPONENT:
 //------------------------------------------------------------------------------
 class HomePage extends React.PureComponent {
-  state = Object.assign({}, INIT_STATE);
+  state = Object.assign({}, INIT_STATE)
 
   handleEventPost = async (event) => {
     const { postEvent } = this.props;
@@ -89,13 +92,16 @@ class HomePage extends React.PureComponent {
 
     return (
       <div>
-        <Title>Controller App</Title>
+        <Title>VFC (Virtual Fog Cannon)</Title>
+        <div className="mb2" />
+        <FogCannon cannonId="1" />
         <div className="flex">
           <Half>
-            <FogCannon
+            <FogCannonController
               onChange={this.handleFogCannonInputChange}
             />
             <div className="mb2" />
+            <h3>Outcomming HTTP requests</h3>
             <Console
               cannonId={cannonId}
               eventType={eventType}
@@ -110,6 +116,9 @@ class HomePage extends React.PureComponent {
             >
               Clear console
             </Button>
+            <div className="mb2" />
+            <h3>Incomming HTTP requests - <ClearEventsBtn /></h3>
+            <EventsList />
           </Half>
           <Spacer />
           <Half>

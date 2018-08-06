@@ -1,7 +1,7 @@
-const Author = require('./author');
-const Post = require('./post');
+const FogCannon = require('./fog-cannon');
+const Event = require('./event');
 
 module.exports = {
-  Author,
-  Post,
+  FogCannon,
+  Event,
 };

@@ -1,35 +1,35 @@
-const casual = require('casual');
-const _ = require('lodash');
-const { Author, Post } = require('./models');
+const { FogCannon, Event } = require('./models');
 
 // Clear DB
 const clearAll = async () => {
-  await Author.remove({});
-  await Post.remove({});
+  await FogCannon.remove({});
+  await Event.remove({});
 };
 
 // Populate DB.
-const fixtures = () => {
-  casual.seed(11);
+const fixtures = async () => {
+  const cannon = await FogCannon.findOne({}).exec();
 
-  _.times(10, () => (
-    new Author({
-      firstName: casual.first_name,
-      lastName: casual.last_name,
-    }).save().then(author => (
-      new Post({
-        authorId: author._id, // eslint-disable-line
-        title: `A post by ${author.firstName}`,
-        text: casual.sentences(3),
-      }).save()
-    ))
-  ));
+  // Insert a cannon in case fogCannons collection is empty
+  if (cannon) {
+    console.log('\nTest cannon already exists!');
+    return;
+  }
+
+  // Insert test cannon
+  const firstCannon = new FogCannon({ cannonId: '1', state: 'off' });
+
+  try {
+    await firstCannon.save();
+    console.log('\nFirst cannon inserted!');
+  } catch (exc) {
+    console.log(exc);
+  }
 };
 
 const initDB = async () => {
-  // Clear Author and Post collections
-  await clearAll();
-
+  // Clear collections
+  // await clearAll();
   // Set some initial data
   await fixtures();
 };

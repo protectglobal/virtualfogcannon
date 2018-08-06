@@ -1,8 +1,10 @@
 const typeDefs = `
   type Event {
+    _id: ID!
+    createdAt: Date!
     cannonId: String!
     eventType: String!
-    eventValue: String!
+    eventValue: [String]!
   }
 
   input EventInput {
@@ -12,11 +14,12 @@ const typeDefs = `
   }
 
   type Query {
-    getEvents: [Event]
+    events: [Event]!
   }
 
   type Mutation {
     postEvent(event: EventInput!): Response!
+    clearEvents: Response!
   }
 `;
 

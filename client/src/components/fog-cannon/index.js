@@ -1,78 +1,64 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { graphql } from 'react-apollo';
+import { propType } from 'graphql-anywhere';
 import styled from 'styled-components';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Switch from '@material-ui/core/Switch';
+import fogCannonFragment from '../../graphql/fog-cannon/fragment/fog-cannon';
+import fogCannonQuery from '../../graphql/fog-cannon/query/fog-cannon';
 
-//------------------------------------------------------------------------------
-// CONSTANTS:
-//------------------------------------------------------------------------------
-const FOG_CANNON_INPUTS = {
-  ARM: 'Arms/disarms the fog cannon. Controlled by PWA and/or alarm system',
-  Primary: 'Break-in sensor / alarm system',
-  Secondary: 'Verifying sensor (room sensor / door switch)',
-  Disable: 'Disables the fog cannon. Controlled by PWA and/or alarm system',
-  Fire: 'Fire sensor. Disables the fog cannon in case of fire',
-};
 //------------------------------------------------------------------------------
 // STYLE:
 //------------------------------------------------------------------------------
 const Container = styled.div`
-  border: 1px solid black;
-  background-color: #808080;
+  border: 1px solid rgba(224, 224, 224, 1);;
 `;
 //------------------------------------------------------------------------------
 // COMPONENT:
 //------------------------------------------------------------------------------
-class FogCannon extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    Object.keys(FOG_CANNON_INPUTS).forEach((key) => {
-      this.state[`checked${key}`] = false;
-    });
+const FogCannon = ({ fogCannonData }) => {
+  const { loading, error, fogCannon } = fogCannonData;
+
+  if (loading) {
+    return <p>Loading ...</p>;
+  }
+  if (error) {
+    return <p>{error.message}</p>;
+  }
+  if (!fogCannon || !fogCannon.state) {
+    return <p>No fogCannon</p>;
   }
 
-  handleChange = ({ target }) => {
-    const { onChange } = this.props;
-    const { name, checked } = target;
-    this.setState({ [`checked${name}`]: checked });
-    // Pass event up to parent component
-    // TODO probably pass prevState and nextState
-    onChange({ inputName: name, value: checked });
-  }
+  const { state } = fogCannon;
 
-  render() {
-    return (
-      <Container className="p1">
-        <FormGroup>
-          {Object.keys(FOG_CANNON_INPUTS).map(key => (
-            <FormControlLabel
-              key={key}
-              control={(
-                <Switch
-                  name={key}
-                  checked={this.state[`checked${key}`]} // eslint-disable-line
-                  onChange={this.handleChange}
-                  value={key}
-                />
-              )}
-              label={`[${key}] - ${FOG_CANNON_INPUTS[key]}`}
-            />
-          ))}
-        </FormGroup>
-      </Container>
-    );
-  }
-}
+  return (
+    <Container>
+      <img
+        src={state === 'on' ? '/fog_cannon_on.jpg' : '/fog_cannon_off.jpg'}
+        alt={state === 'on' ? 'cannon ON' : 'cannon OFF'}
+        height={200}
+      />
+    </Container>
+  );
+};
 
 FogCannon.propTypes = {
-  onChange: PropTypes.func,
+  cannonId: PropTypes.string.isRequired, // eslint-disable-line
+  fogCannonData: PropTypes.shape({
+    error: PropTypes.object,
+    loading: PropTypes.bool.isRequired,
+    fogCannon: propType(fogCannonFragment),
+    refetch: PropTypes.func.isRequired,
+  }).isRequired,
 };
 
-FogCannon.defaultProps = {
-  onChange: () => {},
-};
+const withData = graphql(fogCannonQuery, {
+  name: 'fogCannonData',
+  options: ({ cannonId }) => ({
+    variables: {
+      cannonId,
+    },
+    pollInterval: 1000,
+  }),
+});
 
-export default FogCannon;
+export default withData(FogCannon);

@@ -1,7 +1,7 @@
-const getEvents = require('./get-events');
+const events = require('./events');
 
 const Query = {
-  getEvents,
+  events,
 };
 
 module.exports = Query;
