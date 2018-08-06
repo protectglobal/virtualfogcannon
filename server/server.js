@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const { ApolloServer } = require('apollo-server-express');
 const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/init-db');
+const events = require('./src/routes/events');
 
 //------------------------------------------------------------------------------
 // LOGS
@@ -61,7 +62,7 @@ const staticFiles = express.static(path.join(__dirname, '../../client/build'));
 app.use(staticFiles);
 
 //------------------------------------------------------------------------------
-// ROUTES
+// APOLLO SERVER
 //------------------------------------------------------------------------------
 const server = new ApolloServer({
   schema,
@@ -72,6 +73,12 @@ const server = new ApolloServer({
   },
 });
 server.applyMiddleware({ app, path: '/graphql' });
+
+//------------------------------------------------------------------------------
+// ROUTES
+//------------------------------------------------------------------------------
+// TODO: call it /api/... instead
+app.use('/events', events);
 
 //------------------------------------------------------------------------------
 // CATCH ALL

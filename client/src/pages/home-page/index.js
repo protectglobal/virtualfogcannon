@@ -8,6 +8,8 @@ import postEventMutation from '../../graphql/event/mutation/post-event';
 import FogCannon from '../../components/fog-cannon';
 import FaultCodes from '../../components/fault-codes';
 import Console from '../../components/console';
+import EventsList from '../../components/events-list';
+import ClearEventsBtn from '../../components/clear-events-btn';
 
 //------------------------------------------------------------------------------
 // STYLE:
@@ -89,13 +91,14 @@ class HomePage extends React.PureComponent {
 
     return (
       <div>
-        <Title>Controller App</Title>
+        <Title>VFC (Virtual Fog Cannon)</Title>
         <div className="flex">
           <Half>
             <FogCannon
               onChange={this.handleFogCannonInputChange}
             />
             <div className="mb2" />
+            <h3>Outcomming HTTP requests</h3>
             <Console
               cannonId={cannonId}
               eventType={eventType}
@@ -110,6 +113,9 @@ class HomePage extends React.PureComponent {
             >
               Clear console
             </Button>
+            <div className="mb2" />
+            <h3>Incomming HTTP requests - <ClearEventsBtn /></h3>
+            <EventsList />
           </Half>
           <Spacer />
           <Half>
