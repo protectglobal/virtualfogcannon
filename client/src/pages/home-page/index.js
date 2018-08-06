@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import postEventMutation from '../../graphql/event/mutation/post-event';
 import FogCannon from '../../components/fog-cannon';
+import FogCannonController from '../../components/fog-cannon-controller';
 import FaultCodes from '../../components/fault-codes';
 import Console from '../../components/console';
 import EventsList from '../../components/events-list';
@@ -38,7 +39,7 @@ const INIT_STATE = {
 // COMPONENT:
 //------------------------------------------------------------------------------
 class HomePage extends React.PureComponent {
-  state = Object.assign({}, INIT_STATE);
+  state = Object.assign({}, INIT_STATE)
 
   handleEventPost = async (event) => {
     const { postEvent } = this.props;
@@ -92,9 +93,11 @@ class HomePage extends React.PureComponent {
     return (
       <div>
         <Title>VFC (Virtual Fog Cannon)</Title>
+        <div className="mb2" />
+        <FogCannon cannonId="1" />
         <div className="flex">
           <Half>
-            <FogCannon
+            <FogCannonController
               onChange={this.handleFogCannonInputChange}
             />
             <div className="mb2" />
