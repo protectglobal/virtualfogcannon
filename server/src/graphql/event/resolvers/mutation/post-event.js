@@ -3,7 +3,8 @@ const request = require('request-promise-native');
 const { PWA_URL } = process.env;
 
 if (!PWA_URL || PWA_URL.trim().length === 0) {
-  throw new Error(404, 'missing PWA_URL');
+  console.error('FATAL ERROR: PWA_URL env var missing');
+  process.exit(1);
 }
 
 const postEvent = async (root, args) => {

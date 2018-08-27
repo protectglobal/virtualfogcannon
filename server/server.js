@@ -7,6 +7,7 @@ const { ApolloServer } = require('apollo-server-express');
 const schema = require('./src/graphql/exec-schema');
 const initDB = require('./src/init-db');
 const events = require('./src/routes/events');
+const hello = require('./src/routes/hello');
 
 //------------------------------------------------------------------------------
 // LOGS
@@ -79,6 +80,7 @@ server.applyMiddleware({ app, path: '/graphql' });
 //------------------------------------------------------------------------------
 // TODO: call it /api/... instead
 app.use('/events', events);
+app.use('/api/hello', hello);
 
 //------------------------------------------------------------------------------
 // CATCH ALL
